@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="mainContainer" spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="org.pias.openai.controller.OpenAIController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <children>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
+            <content>
+                <VBox fx:id="responseContainer" spacing="10"/>
+            </content>
+        </ScrollPane>
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="promptInput" HBox.hgrow="ALWAYS" promptText="Enter your prompt here"/>
+            <Button text="Send" onAction="#sendPrompt"/>
+        </HBox>
+    </children>
+</VBox>
