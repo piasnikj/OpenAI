@@ -9,6 +9,8 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+
+    id("org.openjfx.javafxplugin") version "0.0.9"
 }
 
 repositories {
@@ -22,6 +24,17 @@ dependencies {
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:31.1-jre")
+
+    implementation("org.openjfx:javafx-controls:17.0.0.1")
+    implementation("org.openjfx:javafx-fxml:17.0.0.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.xerial:sqlite-jdbc:3.34.0")
+}
+
+javafx {
+    version = "17.0.0.1"
+    modules("javafx.controls", "javafx.fxml")
 }
 
 application {
