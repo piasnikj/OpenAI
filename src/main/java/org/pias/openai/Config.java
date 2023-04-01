@@ -1,6 +1,5 @@
 package org.pias.openai;
 
-import org.checkerframework.checker.units.qual.C;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -45,11 +44,6 @@ public class Config {
     }
 
     public void updateProperty(final String key, final String value) {
-        if (!configMap.containsKey(key)) {
-            System.err.println("Property: " + key + " does NOT exist");
-            return;
-        }
-
         System.out.println("Property " + key + " current value: " + configMap.get(key) + " ---> New Value: " + value);
         configMap.put(key, value);
 
