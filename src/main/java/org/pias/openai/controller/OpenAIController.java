@@ -14,9 +14,19 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.pias.openai.service.ApiService;
+import org.pias.openai.service.UnirestApiService;
+import org.pias.openai.service.chat.payload.ChatCompletionRequest;
+import org.pias.openai.service.chat.payload.Message;
+import org.pias.openai.service.chat.response.ChatCompletionResponse;
+import org.pias.openai.service.chat.response.Choice;
+import org.pias.openai.util.enums.ModelEnum;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class OpenAIController implements Initializable {
@@ -30,8 +40,15 @@ public class OpenAIController implements Initializable {
     @FXML
     private Button sendButton;
 
+    private ApiService apiService;
+
+    private List<Message> messages;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        messages = new ArrayList<>();
+        apiService = new UnirestApiService();
+
         promptInput.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 sendButton.fire();
@@ -73,15 +90,51 @@ public class OpenAIController implements Initializable {
         userPrompt.getStyleClass().add("user-prompt");
         responseContainer.getChildren().add(userPrompt);
 
-        // Display API response
-        // Replace this with actual API response
-        String apiResponse = "OpenAI: This is a sample response.";
-        Label openAiResponse = new Label(apiResponse);
-        openAiResponse.getStyleClass().add("openai-response");
-        responseContainer.getChildren().add(openAiResponse);
+        addMessageToContext("user", prompt);
 
-        // Scroll to the bottom of the response container
-        scrollPane.layout();
-        scrollPane.setVvalue(1.0);
+        ChatCompletionRequest request = new ChatCompletionRequest.Builder()
+                .model(ModelEnum.GPT_3_5_TURBO.getModel())
+                .messages(messages)
+                .build();
+
+        try {
+            ChatCompletionResponse response = apiService.chat(request);
+
+            // Display API response
+            // Replace this with actual API response
+            final Optional<String> optChatMessage = response.choices().stream()
+                    .filter(choice -> choice.finishReason().equals("stop"))
+                    .map(Choice::message)
+                    .map(Message::content)
+                    .findFirst();
+
+            if (optChatMessage.isEmpty()) {
+                return;
+            }
+
+            String chatMessage = optChatMessage.get();
+            Label openAiResponse = new Label(chatMessage);
+
+            addMessageToContext("assistant", chatMessage);
+
+            openAiResponse.getStyleClass().add("openai-response");
+            responseContainer.getChildren().add(openAiResponse);
+
+            // Scroll to the bottom of the response container
+            scrollPane.layout();
+            scrollPane.setVvalue(1.0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addMessageToContext(String role,
+                                     String strMessage) {
+        Message message = new Message.Builder()
+                .role(role)
+                .content(strMessage)
+                .build();
+
+        messages.add(message);
     }
 }
