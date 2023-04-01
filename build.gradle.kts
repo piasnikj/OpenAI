@@ -30,6 +30,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("org.xerial:sqlite-jdbc:3.34.0")
+
+    implementation("org.yaml:snakeyaml:1.29")
 }
 
 javafx {

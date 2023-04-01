@@ -19,6 +19,8 @@ public class OpenAI extends Application {
         scene.getStylesheets().add(cssUrl.toExternalForm());
 
         primaryStage.setTitle("OpenAI JavaFX Application");
+        primaryStage.setHeight(720);
+        primaryStage.setWidth(440);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

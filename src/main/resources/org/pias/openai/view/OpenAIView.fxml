@@ -8,6 +8,15 @@
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
     <children>
+        <MenuBar>
+            <menus>
+                <Menu text="Configuration">
+                    <items>
+                        <MenuItem text="Settings" onAction="#showConfiguration"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
         <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS">
             <content>
                 <VBox fx:id="responseContainer" spacing="10"/>
@@ -15,7 +24,7 @@
         </ScrollPane>
         <HBox spacing="10" alignment="CENTER">
             <TextField fx:id="promptInput" HBox.hgrow="ALWAYS" promptText="Enter your prompt here"/>
-            <Button text="Send" onAction="#sendPrompt"/>
+            <Button fx:id="sendButton" text="Send" onAction="#sendPrompt"/>
         </HBox>
     </children>
 </VBox>
