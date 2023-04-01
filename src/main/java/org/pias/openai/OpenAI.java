@@ -5,18 +5,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.pias.openai.util.UtilityHelper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 public class OpenAI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("view/OpenAIView.fxml"));
+        Optional<URL> optUrl = UtilityHelper.getResourceFile("OpenAIView.fxml");
+
+        if (optUrl.isEmpty()) {
+            throw new RuntimeException("Unable to find view file: OpenAIView.fxml");
+        }
+
+        Parent root = FXMLLoader.load(optUrl.get());
         Scene scene = new Scene(root);
-        URL cssUrl = getClass().getResource("view/styles.css");
-        scene.getStylesheets().add(cssUrl.toExternalForm());
+        Optional<URL> optCssUrl = UtilityHelper.getResourceFile("styles.css");
+        optCssUrl.ifPresent(url -> scene.getStylesheets().add(url.toExternalForm()));
 
         primaryStage.setTitle("OpenAI JavaFX Application");
         primaryStage.setHeight(720);

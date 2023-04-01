@@ -20,6 +20,7 @@ import org.pias.openai.service.chat.payload.ChatCompletionRequest;
 import org.pias.openai.service.chat.payload.Message;
 import org.pias.openai.service.chat.response.ChatCompletionResponse;
 import org.pias.openai.service.chat.response.Choice;
+import org.pias.openai.util.UtilityHelper;
 import org.pias.openai.util.enums.ModelEnum;
 
 import java.io.IOException;
@@ -71,7 +72,9 @@ public class OpenAIController implements Initializable {
     private void showConfiguration() {
         try {
             Stage configurationStage = new Stage();
-            Parent configurationRoot = FXMLLoader.load(getClass().getResource("/org/pias/openai/view/ConfigurationView.fxml"));
+            URL url = UtilityHelper.getResourceFile("ConfigurationView.fxml")
+                    .orElseThrow(() -> new RuntimeException("Resource not found"));
+            Parent configurationRoot = FXMLLoader.load(url);
             Scene configurationScene = new Scene(configurationRoot);
             configurationStage.setTitle("Configuration");
             configurationStage.setScene(configurationScene);
