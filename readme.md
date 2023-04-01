@@ -19,8 +19,8 @@ This is a simple JavaFX application that communicates with OpenAI APIs. The appl
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/openai-javafx-application.git
-   cd openai-javafx-application
+   git clone https://github.com/piasnikj/OpenAI.git
+   cd OpenAI
    ```
 
 2. Set the `JAVA_HOME` environment variable to your Java 17 JDK installation path.
